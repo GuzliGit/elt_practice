@@ -1,0 +1,29 @@
+mkdir -p D1/D2/D3
+touch D1/D2/file.txt
+echo "test text" > D1/D2/file.txt
+ln D1/D2/file.txt D1/D2/D3/hardlink.txt
+ln -s D1/D2/file.txt D1/D2/D3/softlink.txt
+ls -li D1/D2
+ls -li D1/D2/D3
+mv D1/D2/file.txt D1/
+cat D1/D2/D3/hardlink.txt
+cat D1/D2/D3/softlink.txt [ошибка]
+Символическая ссылка перестала работать, так как путь к файлу изменился
+rm -rf D1/D2
+find / -type f -size +20M 2>/dev/null | while read file; do du -h "$file" | grep -E "^[0-9.]+[MG]\s" >> "${USER}_part3_gt20M.log"; done
+find ~ -type f -mtime -1
+	/home/eltex-pg1-v1/eltex-pg1-v1_part.log
+	/home/eltex-pg1-v1/.viminfo
+	/home/eltex-pg1-v1/.ssh/id_ed25519.pub
+	/home/eltex-pg1-v1/.ssh/known_hosts
+	/home/eltex-pg1-v1/.ssh/known_hosts.old
+	/home/eltex-pg1-v1/.ssh/id_ed25519
+	/home/eltex-pg1-v1/.bash_history
+which find
+	/usr/bin/find
+file /usr/bin/file
+	/usr/bin/file: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=966425c361b63d074fc66bf6e1c2bb9abe6f3bd5, for GNU/Linux 3.2.0, stripped
+file /boot/initrd.img*
+	/boot/initrd.img-6.1.0-27-amd64: ASCII cpio archive (SVR4 with no CRC)
+	/boot/initrd.img-6.1.0-31-amd64: ASCII cpio archive (SVR4 with no CRC)
+	/boot/initrd.img-6.1.0-32-amd64: ASCII cpio archive (SVR4 with no CRC)

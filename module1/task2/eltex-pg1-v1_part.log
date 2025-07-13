@@ -1,0 +1,29 @@
+ls<TAB><TAB>
+ls lsblk lscpu lsinitramfs lsirq lslogins lsmod lsof lsusb
+lsattr lsb_release lsfd lsipc lslocks lsmem lsns lspci
+echo ${!HIST*}
+HISTCMD HISTCONTROL HISTFILE HISTFILESIZE HISTSIZE
+echo $HISTSIZE
+1000
+export HISTTIMEFORMAT="%d.%m.%Y "
+source .bashrc
+history
+date
+history | grep date
+cat ~/.bash_history | grep date
+export PROMPT_COMMAND="history -a"
+source .bashrc
+date
+history | grep date
+cat ~/.bash_history | grep date
+DATE=$(date +"%d.%m.%Y")
+echo $DATE
+TIME=$(date +"%H:%M:%S")
+echo $TIME
+DATE_TIME="$DATE $TIME"
+echo $DATE_TIME
+export PS1='\u@\h-$(date +"%H:%M")> '
+bash --norc
+echo $PS1
+<CTRL + D>
+mkdir -p $(date +"%Y")-{01..12}
