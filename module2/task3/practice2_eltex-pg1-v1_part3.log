@@ -1,0 +1,163 @@
+git config --global user.name "GuzliGit"
+git config --global user.email "badindan2003@gmail.com"
+git config --global init.defaultBranch main
+apt install git gh
+ssh-keygen -t ed25519 -f ~/.ssh/guzligit
+	Generating public/private ed25519 key pair.
+	[КЛЮЧ]
+gh auth login 
+	? What account do you want to log into? GitHub.com
+	? What is your preferred protocol for Git operations on this host? SSH
+	? Upload your SSH public key to your GitHub account? /root/.ssh/guzligit.pub
+	? Title for your SSH key: eltex-practice2-pg1-v1
+	? How would you like to authenticate GitHub CLI? Login with a web browser
+	...
+	✓ Authentication complete.
+	- gh config set -h github.com git_protocol ssh
+	✓ Configured git protocol
+	! Authentication credentials saved in plain text
+	✓ Uploaded the SSH key to your GitHub account: /root/.ssh/guzligit.pub
+	✓ Logged in as GuzliGit
+gh auth setup-git --hostname github.com
+gh auth status
+  github.com	
+  ✓ Logged in to github.com account GuzliGit (/root/.config/gh/hosts.yml)
+  - Active account: true
+  - Git operations protocol: ssh
+  - Token: gho_************************************
+  - Token scopes: 'admin:public_key', 'gist', 'read:org', 'repo'
+gh repo create --public elt_practice
+  ✓ Created repository GuzliGit/elt_practice on GitHub
+  https://github.com/GuzliGit/elt_practice
+mkdir ~/elt_practice && cd ~/elt_practice
+echo "# Репозиторий для практических заданий" >> README.md
+git init 
+Initialized empty Git repository in /root/elt_practice/.git/
+git add README.md 
+git commit -m "Add readme file"
+	[main (root-commit) 3f9f068] Add readme file
+	1 file changed, 1 insertion(+)
+ 	create mode 100644 README.md
+git branch -M main 
+git remote add origin https://github.com/GuzliGit/elt_practice.git
+git status
+	On branch main
+	nothing to commit, working tree clean
+git push -u origin main 
+	Enumerating objects: 3, done.
+	Counting objects: 100% (3/3), done.
+	Delta compression using up to 2 threads
+	Compressing objects: 100% (2/2), done.
+	Writing objects: 100% (3/3), 282 bytes | 282.00 KiB/s, done.
+	Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+	To https://github.com/GuzliGit/elt_practice.git
+	 * [new branch]      main -> main
+	branch 'main' set up to track 'origin/main'.
+mkdir -p module1/task1
+mkdir module1/task2
+mkdir module1/task3
+[скопировал все файлы с помощью scp в соответствующие каталоги]
+git add .
+git status
+	On branch main
+	Your branch is up to date with 'origin/main'.
+
+	Changes to be committed:
+	  (use "git restore --staged <file>..." to unstage)
+		new file:   module1/task1/Practice_1.pdf
+		new file:   module1/task2/Practice_2.pdf
+		new file:   module1/task2/eltex-pg1-v1_part.log
+		new file:   module1/task3/eltex-pg1-v1_part3.log
+		new file:   module1/task3/eltex-pg1-v1_part3_gt20M.log
+git commit -m "Добавил отчеты по первой практике"
+	[main 32eaceb] Добавил отчеты по первой практике
+	 5 files changed, 70 insertions(+)
+	 create mode 100644 module1/task1/Practice_1.pdf
+	 create mode 100644 module1/task2/Practice_2.pdf
+	 create mode 100644 module1/task2/eltex-pg1-v1_part.log
+	 create mode 100644 module1/task3/eltex-pg1-v1_part3.log
+	 create mode 100644 module1/task3/eltex-pg1-v1_part3_gt20M.log
+git push
+	Enumerating objects: 12, done.
+	Counting objects: 100% (12/12), done.
+	Delta compression using up to 2 threads
+	Compressing objects: 100% (10/10), done.
+	Writing objects: 100% (11/11), 1.52 MiB | 1.95 MiB/s, done.
+	Total 11 (delta 0), reused 0 (delta 0), pack-reused 0
+	To https://github.com/GuzliGit/elt_practice.git
+	   3f9f068..32eaceb  main -> main
+mkdir ~/elt_practice_clone && cd ~/elt_practice_clone
+git clone https://github.com/GuzliGit/elt_practice.git .
+	Cloning into '.'...
+	remote: Enumerating objects: 14, done.
+	remote: Counting objects: 100% (14/14), done.
+	remote: Compressing objects: 100% (12/12), done.
+	remote: Total 14 (delta 0), reused 14 (delta 0), pack-reused 0 (from 0)
+	Receiving objects: 100% (14/14), 1.52 MiB | 2.82 MiB/s, done.
+cd ~/elt_practice/
+echo "Test file" > test.txt
+git add .
+git commit -m "Добавил тестовый файл"
+	[main 20f65c6] Добавил тестовый файл
+	 1 file changed, 1 insertion(+)
+	 create mode 100644 test.txt
+git push
+	Enumerating objects: 4, done.
+	Counting objects: 100% (4/4), done.
+	Delta compression using up to 2 threads
+	Compressing objects: 100% (2/2), done.
+	Writing objects: 100% (3/3), 360 bytes | 360.00 KiB/s, done.
+	Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+	To https://github.com/GuzliGit/elt_practice.git
+	   32eaceb..20f65c6  main -> main
+cd ~/elt_practice_clone/
+git fetch
+	remote: Enumerating objects: 4, done.
+	remote: Counting objects: 100% (4/4), done.
+	remote: Compressing objects: 100% (2/2), done.
+	remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 0 (from 0)
+	Unpacking objects: 100% (3/3), 340 bytes | 340.00 KiB/s, done.
+	From https://github.com/GuzliGit/elt_practice
+	   32eaceb..20f65c6  main       -> origin/main
+git log origin/main
+	commit 20f65c682fadee340d8bb82403ea28c66149cc81 (origin/main, origin/HEAD)
+	Author: GuzliGit <badindan2003@gmail.com>
+	Date:   Sun Jul 13 11:08:01 2025 +0000
+	
+	    Добавил тестовый файл
+	
+	commit 32eacebd58956e4f92e16c5df11bfa07aceccf64 (HEAD -> main)
+	Author: GuzliGit <badindan2003@gmail.com>
+	Date:   Sun Jul 13 11:02:20 2025 +0000
+	
+	    Добавил отчеты по первой практике
+	
+	commit 3f9f068f5d718fd5673b7c4f57099471e85ed1c6
+	Author: GuzliGit <badindan2003@gmail.com>
+	Date:   Sat Jul 12 12:26:07 2025 +0000
+	
+	    Add readme file
+git diff main origin/main
+	diff --git a/test.txt b/test.txt
+	new file mode 100644
+	index 0000000..524acff
+	--- /dev/null
+	+++ b/test.txt
+	@@ -0,0 +1 @@
+	+Test file
+git merge
+	Updating 32eaceb..20f65c6
+	Fast-forward
+	 test.txt | 1 +
+	 1 file changed, 1 insertion(+)
+	 create mode 100644 test.txt
+cd ~/elt_practice/
+mkdir -p module2/task1
+mkdir module2/task2
+mkdir module2/task3
+mv ~/practice2_eltex-pg1-v1_part1.log ~/elt_practice/module2/task1/
+mv ~/practice2_eltex-pg1-v1_part2.log ~/elt_practice/module2/task2/
+mv ~/practice2_eltex-pg1-v1_part3.log ~/elt_practice/module2/task3/
+git add .
+git commit -m "Добавил задания по второй практике"
+git push

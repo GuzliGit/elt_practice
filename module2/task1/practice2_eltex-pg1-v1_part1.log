@@ -1,0 +1,148 @@
+ssh-copy-id -i /home/eltex-pg1-v1/.ssh/id_ed25519.pub root@172.16.9.175
+[SERVER2]
+cat .ssh/authorized_keys 
+[ключ]
+ls -la .ssh/authorized_keys
+	-rw------- 1 root root 104 Jul 11 03:34 .ssh/authorized_keys
+[SERVER1] 
+cat .ssh/id_ed25519.pub
+[тот же ключ]
+ls -la .ssh/
+	total 24
+	drwx------  2 eltex-pg1-v1 eltex-pg1-v1 4096 Jul 11 10:34 .
+	drwx------ 17 eltex-pg1-v1 eltex-pg1-v1 4096 Jul 11 14:50 ..
+	-rw-------  1 eltex-pg1-v1 eltex-pg1-v1  419 Jul 11 10:18 id_ed25519
+	-rw-r--r--  1 eltex-pg1-v1 eltex-pg1-v1  104 Jul 11 10:18 id_ed25519.pub
+	-rw-------  1 eltex-pg1-v1 eltex-pg1-v1  978 Jul 11 10:26 known_hosts
+	-rw-r--r--  1 eltex-pg1-v1 eltex-pg1-v1  142 Jul 11 10:24 known_hosts.old
+[SERVER2]
+useradd -m -s /bin/bash user1
+passwd user1
+	user1:x:1001:1001::/home/user1:/bin/bash
+adduser user2
+	user2:x:1002:1002:,,,:/home/user2:/bin/bash
+adduser user3
+usermod -s /usr/sbin/nologin user3
+	user3:x:1003:1003:another,,,:/home/user3:/usr/sbin/nologin
+su - user3
+	This account is currently not available.
+su -s /bin/bash user3
+	[успешно]
+groupadd p2group
+usermod -aG p2group user1
+usermod -aG p2group user2
+usermod -aG p2group user3
+groups user1 user2 user3
+	user1 : user1 p2group
+	user2 : user2 users p2group
+	user3 : user3 users p2group
+mkdir -p /opt/share
+chown :p2group /opt/share
+chmod 770 /opt/share
+chmod g+s /opt/share
+	drwxrws--- 2 root p2group 4096 Jul 11 04:58 /opt/share/
+echo "umask 027" | tee -a /home/user1/.bashrc
+su - user1
+umask
+	0027
+touch /opt/share/user1_f
+logout
+su - user2
+touch /opt/share/user2_f
+logout
+su - user3 -s /bin/bash
+touch /opt/share/user3_f
+rm /opt/share/user1_f
+rm /opt/share/user2_f
+rm /opt/share/user3_f
+logout
+chmod +t /opt/share
+	drwxrws--T 2 root p2group 4096 Jul 11 04:58 /opt/share/
+su - user1
+touch /opt/share/user1_f
+logout
+su - user2
+touch /opt/share/user2_f
+logout
+su - user3 -s /bin/bash
+touch /opt/share/user3_f
+rm /opt/share/user2_f
+	rm: cannot remove '/opt/share/user2_f': Operation not permitted
+logout
+echo "user1 ALL=(ALL) NOPASSWD: /usr/bin/dmesg" | tee /etc/sudoers.d/usesr1_dmesg
+sudo dmesg
+	[успешный запуск]
+logout
+mkdir -p /usr/local/bin/dmesg
+touch /usr/local/bin/dmesg/run_dmesg
+echo -e "#!/bin/bash\n/usr/bin/dmesg" >> /usr/local/bin/dmesg/run_dmesg
+chmod +x /usr/local/bin/dmesg/run_dmesg
+chown root:root /usr/local/bin/dmesg/run_dmesg
+chmod u+s /usr/local/bin/dmesg/run_dmesg
+	-rwsrwxr-x 1 root root 27 Jul 11 05:16 /usr/local/bin/dmesg/run_dmesg
+su - user2 -c "/usr/local/bin/dmesg/run_dmesg" [error]
+	dmesg: read kernel buffer failed: Operation not permitted
+chage -M 10 user1
+chage -M 10 user2
+chage -M 10 user3
+chage -l user1
+	Last password change					: Jul 11, 2025
+	Password expires					: Jul 21, 2025
+	Password inactive					: never
+	Account expires						: never
+	Minimum number of days between password change		: 0
+	Maximum number of days between password change		: 10
+	Number of days of warning before password expires	: 7
+echo "Badin Daniil" | tee /etc/motd
+	Badin Daniil
+rsync -a /etc/ /root/etc_backup/
+	drwxr-xr-x 109 root root 4.0K Jul 11 05:43 /root/etc_backup/
+tar -czvf /root/etc_archive.tar.gz /root/etc_backup
+tar -cjvf /root/etc_archive.tar.bz2 /root/etc_backup
+tar -cZvf /root/etc_archive.tar.Z /root/etc_backup
+ls -lh /root/
+	total 2.3M
+	-rw-r--r--   1 root root 553K Jul 11 05:58 etc_archive.tar.bz2
+	-rw-r--r--   1 root root 582K Jul 11 05:54 etc_archive.tar.gz
+	-rw-r--r--   1 root root 1.1M Jul 11 06:03 etc_archive.tar.Z
+	drwxr-xr-x 109 root root 4.0K Jul 11 05:43 etc_backup
+	-rw-r--r--   1 root root 3.3K Jul 11 08:13 practice2_eltex-pg1-v1_part1.log
+echo "$(date)" >> /etc/motd
+	Badin Daniil
+	Fri Jul 11 08:17:38 AM UTC 2025
+rsync -a /etc/ /root/etc_backup/
+gunzip etc_archive.tar.gz
+tar -uvf /root/etc_archive.tar /root/etc_backup/motd
+	tar: Removing leading `/' from member names
+	/root/etc_backup/motd
+	tar: Removing leading `/' from hard link targets
+gzip etc_archive.tar
+tar --compare -f etc_archive.tar.bz2 --directory /root/etc_backup
+	tar: root/etc_backup/rc4.d: Warning: Cannot stat: No such file or directory
+	tar: root/etc_backup/rc4.d/S01uuidd: Warning: Cannot readlink: No such file or directory
+	tar: root/etc_backup/rc4.d/S01grub-common: Warning: Cannot readlink: No such file or directory
+	tar: root/etc_backup/rc4.d/S01rsync: Warning: Cannot readlink: No such file or directory
+	tar: root/etc_backup/rc4.d/S01plymouth: Warning: Cannot readlink: No such file or directory
+	tar: root/etc_backup/rc4.d/S01dbus: Warning: Cannot readlink: No such file or directory
+	tar: root/etc_backup/rc4.d/S01sysstat: Warning: Cannot readlink: No such file or directory
+	tar: root/etc_backup/rc4.d/S01console-setup.sh: Warning: Cannot readlink: No such file or directory
+	tar: root/etc_backup/rc4.d/S01open-vm-tools: Warning: Cannot readlink: No such file or directory
+	[и т.д.]
+[второй способ сравнения с распаковкой]
+mkdir bz2temp
+tar -xjf etc_archive.tar.bz2 -C bz2temp/
+diff -rq bz2temp/root/etc_backup/ /root/etc_backup/
+	Files bz2temp/root/etc_backup/motd and /root/etc_backup/motd differ
+	diff: bz2temp/root/etc_backup/mtab: No such file or directory
+	diff: /root/etc_backup/mtab: No such file or directory
+	diff: bz2temp/root/etc_backup/os-release: No such file or directory
+	diff: /root/etc_backup/os-release: No such file or directory
+	diff: bz2temp/root/etc_backup/resolv.conf: No such file or directory
+	diff: /root/etc_backup/resolv.conf: No such file or directory
+rm -rf bz2temp/
+mkdir /root/etc_backup_{gzip,Zzip}
+tar -xzvf /root/etc_archive.tar.gz -C /root/etc_backup_gzip
+tar -xZvf /root/etc_archive.tar.Z -C /root/etc_backup_Zzip
+diff /root/etc_backup_gzip/root/etc_backup/motd /root/etc_backup_Zzip/root/etc_backup/motd
+	2d1
+	< Fri Jul 11 08:17:38 AM UTC 2025
