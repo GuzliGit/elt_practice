@@ -1,6 +1,7 @@
 *.o
 *.a
 *.lib
+*.txt
 
 build/
 bin/
