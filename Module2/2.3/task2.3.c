@@ -7,7 +7,7 @@
 
 void print_result(char* input) 
 {
-    char error[256] = {0};
+    char error[MAX_INPUT] = {0};
     double result = calculate(input, error);
     
     printf("\033[1B");

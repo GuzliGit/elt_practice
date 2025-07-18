@@ -1,6 +1,6 @@
 #include "calc.h"
 #include "lexer.h"
-#include "parsec.h"
+#include "parser.h"
 #include <stdio.h>
 #include <ctype.h>
 #include <math.h>

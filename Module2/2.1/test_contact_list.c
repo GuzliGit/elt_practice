@@ -54,7 +54,8 @@ START_TEST(test_get_contact_by_id) {
 }
 END_TEST
 
-Suite *contact_list_suite(void) {
+Suite *contact_list_suite(void) 
+{
     Suite *s = suite_create("Contact List");
 
     TCase *tc_core = tcase_create("Core");

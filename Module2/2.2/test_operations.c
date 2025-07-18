@@ -43,7 +43,8 @@ START_TEST(test_division)
     ck_assert_double_eq_tol(result, 0.539665, 1e-6);
 }
 
-Suite *contact_list_suite(void) {
+Suite *contact_list_suite(void) 
+{
     Suite *s = suite_create("Contact List");
 
     TCase *tc_core = tcase_create("Core");
