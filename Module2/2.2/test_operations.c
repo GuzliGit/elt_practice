@@ -5,9 +5,9 @@
 // Тесты на сложение
 START_TEST(test_sum)
 {
-    ck_assert_double_eq_tol(sum(15, 20), 35, 1e-6);
-    ck_assert_double_eq_tol(sum(66.22, 0.44), 66.66, 1e-6);
-    ck_assert_double_eq_tol(sum(-15.23, -10), -25.23, 1e-6);
+    ck_assert_double_eq_tol(sum(2, 15.0, 20.0), 35, 1e-6);
+    ck_assert_double_eq_tol(sum(2, 66.22, 0.44), 66.66, 1e-6);
+    ck_assert_double_eq_tol(sum(2, -15.23, -10.0), -25.23, 1e-6);
 }
 END_TEST
 

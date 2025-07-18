@@ -1,7 +1,7 @@
 #ifndef OPERATIONS_H
 #define OPERATIONS_H
 
-double sum(double, double);
+double sum(int, ...);
 
 double substraction(double, double);
 
