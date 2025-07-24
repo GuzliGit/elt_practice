@@ -14,11 +14,11 @@ char* path_to_libs;
 
 Operation operations[] = 
 {
-    {'+', NULL, 0, NULL, 0},
-    {'-', NULL, 0, NULL, 0},
-    {'*', NULL, 0, NULL, 0},
-    {'/', NULL, 0, NULL, 0},
-    {'~', NULL, 1, NULL, 0}
+    {'+', NULL, 0, NULL},
+    {'-', NULL, 0, NULL},
+    {'*', NULL, 0, NULL},
+    {'/', NULL, 0, NULL},
+    {'~', NULL, 1, NULL}
 };
 
 int load_ops(char* dir_p)
@@ -72,7 +72,6 @@ int load_ops(char* dir_p)
             {
                 operations[i].func = func;
                 operations[i].handle = handle;
-                operations[i].is_reloaded = 1;
                 load_memory[op]++;
                 loaded++;
             }
@@ -107,7 +106,6 @@ int reload_op(char op)
             dlclose(operations[i].handle);
             operations[i].func = NULL;
             operations[i].handle = NULL;
-            operations[i].is_reloaded = 0;
         }
     }
 
@@ -157,7 +155,6 @@ int reload_op(char op)
             {
                 operations[i].func = func;
                 operations[i].handle = handle;
-                operations[i].is_reloaded = 1;
                 loaded++;
             }
         }

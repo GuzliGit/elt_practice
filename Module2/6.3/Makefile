@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -I. -fPIC -g
+CFLAGS = -I. -fPIC
 LDFLAGS = -lm -ldl
 
 BUILD_DIR = build

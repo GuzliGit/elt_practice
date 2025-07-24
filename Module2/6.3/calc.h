@@ -11,7 +11,6 @@ typedef struct Operation
     double (*func)(double, double);
     int is_unary;
     void* handle;
-    int is_reloaded;
 } Operation;
 
 int load_ops(char*);
