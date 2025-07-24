@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -I. -fPIC
-LDFLAGS = -L$(LIB_DIR) -lcontactlist -Wl,-rpath,'$$ORIGIN/../lib'
+LDFLAGS = -L$(LIB_DIR) -lcontactlist
 
 BUILD_DIR = build
 BIN_DIR = bin
