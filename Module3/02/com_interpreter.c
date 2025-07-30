@@ -16,7 +16,8 @@ void init_progs_dir()
     if (readlink("/proc/self/exe", progs_dir, sizeof(progs_dir)) == -1) 
     {
         strcpy(progs_dir, ".");
-    } else 
+    } 
+    else 
     {
         char* last_slash = strrchr(progs_dir, '/');
         if (last_slash)
@@ -138,8 +139,8 @@ void execute(Instruction instrs[], int count)
             case 0:
                 if (prev_pipe != -1) 
                 {
-                dup2(prev_pipe, STDIN_FILENO);
-                close(prev_pipe);
+                    dup2(prev_pipe, STDIN_FILENO);
+                    close(prev_pipe);
                 }
 
                 if (i < count - 1) 

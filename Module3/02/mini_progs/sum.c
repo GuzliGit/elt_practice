@@ -16,6 +16,8 @@ int sum_numbers(int argc, char *argv[])
 
     while (fgets(buf, sizeof(buf), stdin)) 
     {
+        if (buf[0] == '\n') 
+            break;
         sum += atoi(buf);
     }
 
