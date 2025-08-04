@@ -36,6 +36,8 @@ static void generate_digits(char* buf, int digits_count)
 void produce(prod_file* pf)
 {
     srand(time(NULL) ^ getpid());
+    struct sembuf lock = {0, -1, 0};
+    struct sembuf unlock = {0, 1, 0};
 
     while (1) 
     {
@@ -44,13 +46,11 @@ void produce(prod_file* pf)
 
         generate_digits(buf, digits_count);
 
-        struct sembuf op = {0, -1, 0};
-        semop(pf->semid, &op, 1);
+        semop(pf->semid, &lock, 1);
 
         write(pf->fd, buf, strlen(buf));
 
-        op.sem_op = 1;
-        semop(pf->semid, &op, 1);
+        semop(pf->semid, &unlock, 1);
 
         sleep(1);
     }
