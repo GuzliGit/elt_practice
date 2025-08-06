@@ -44,6 +44,7 @@ void *receive_messages(void *arg)
 
 static void terminate_client(int sig)
 {
+    sendto(sfd, "-DISCONNECT", 12, 0, (struct sockaddr*)&serv_addr, sizeof(serv_addr));
     close(sfd);
     printf("\nВы были отключены от сервера...\n");
     exit(EXIT_SUCCESS);
@@ -79,6 +80,11 @@ int main()
         if (len > 0 && input[len-1] == '\n') 
         {
             input[len-1] = '\0';
+        }
+        
+        if (strcmp(input, "-DISCONNECT") == 0)
+        {
+            terminate_client(SIGTERM);
         }
         
         sendto(sfd, input, strlen(input), 0,(struct sockaddr*)&serv_addr, sizeof(serv_addr));

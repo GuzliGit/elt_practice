@@ -32,13 +32,35 @@ static void try_connect(struct sockaddr_in client)
         clients_count++;
         printf("Новый клиент присоединился [%s:%d].\n", inet_ntoa(client.sin_addr), ntohs(client.sin_port));
         
-        const char* welcome = "[Server]: Вы успешно подключены к серверу!.\n";
+        const char* welcome = "{Server}: вы успешно подключены к серверу!.\n";
         sendto(sfd, welcome, strlen(welcome), 0, (struct sockaddr*)&client, sizeof(client));
     }
 }
 
 static void try_send(ssize_t msg_len, struct sockaddr_in client)
 {
+    if (strcmp(buf, "-DISCONNECT") == 0)
+    {
+        printf("\nКлиент отключился [%s:%d]\n", inet_ntoa(client.sin_addr), ntohs(client.sin_port));
+        for (int i = 0; i < clients_count; i++) 
+        {
+            if (memcmp(&clients[i], &client, sizeof(client)) == 0) 
+            {
+                clients_count--;
+                clients[i] = clients_count < MAX_CLIENTS ? clients[clients_count] : clients[i];
+            }
+        }
+
+        char warning[BUF_SIZE];
+        snprintf(warning, BUF_SIZE, "{Server}: клиент [%s:%d] отключился от сервера...\n", inet_ntoa(client.sin_addr), ntohs(client.sin_port));
+        for (int i = 0; i < clients_count; i++) 
+        {
+            sendto(sfd, warning, strlen(warning), 0, (struct sockaddr*)&clients[i], sizeof(clients[i]));
+        }
+
+        return;
+    }
+
     for (int i = 0; i < clients_count; i++)
     {
         if (memcmp(&clients[i], &client, sizeof(client)) != 0)

@@ -7,13 +7,19 @@ BIN_DIR = bin
 SERVER_TARGET = $(BIN_DIR)/server
 CLIENT_TARGET = $(BIN_DIR)/client
 
+SERVER_SRC = server.c
+CLIENT_SRC = client.c
+
+SERVER_OBJ = $(SERVER_SRC:%.c=$(BUILD_DIR)/%.o)
+CLIENT_OBJ = $(CLIENT_SRC:%.c=$(BUILD_DIR)/%.o)
+
 all: $(SERVER_TARGET) $(CLIENT_TARGET)
 
-$(SERVER_TARGET): server.c
+$(SERVER_TARGET): $(SERVER_OBJ)
 	@mkdir -p $(BIN_DIR)
 	$(CC) $^ -o $@
 
-$(CLIENT_TARGET): client.c
+$(CLIENT_TARGET): $(CLIENT_OBJ)
 	@mkdir -p $(BIN_DIR)
 	$(CC) $^ -o $@
 
