@@ -24,6 +24,7 @@ void process_pack(int size);
 void terminate(int sig)
 {
     close(binfd);
+    close(decodedfd);
     close(sockfd);
     exit(EXIT_SUCCESS);
 }
