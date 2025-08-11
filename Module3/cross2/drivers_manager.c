@@ -1,6 +1,7 @@
 #include "drivers_manager.h"
 #include "driver.h"
 #include <fcntl.h>
+#include <signal.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,6 +9,7 @@
 #include <sys/epoll.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 static Driver drivers[MAX_DRIVERS];
 static int drivers_count = 0;
@@ -131,7 +133,7 @@ static void create_driver()
 
             if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, driver->read_pipefd[0], &ev) == -1) 
             {
-                perror("epoll_ctl");
+                perror("epoll_ctl error");
                 close(driver->write_pipefd[1]);
                 close(driver->read_pipefd[0]);
                 return;
@@ -156,7 +158,7 @@ static void send_task(pid_t pid, int task_time)
 
             if (write(drivers[i].write_pipefd[1], buf, strlen(buf)) == -1) 
             {
-                perror("write to driver pipe");
+                perror("write to driver pipe error");
             }
             return;
         }
@@ -172,9 +174,34 @@ static void get_status(pid_t pid)
 
             if (write(drivers[i].write_pipefd[1], buf, strlen(buf)) == -1) 
             {
-                perror("write to driver pipe");
+                perror("write to driver pipe error");
                 return;
             }
+            return;
+        }
+    }
+    printf("Водитель %d не найден\n", pid);
+}
+
+static void remove_driver(pid_t pid)
+{
+    for (int i = 0; i < drivers_count; i++)
+    {
+        if (drivers[i].pid == pid)
+        {
+            char* buf = "REMOVE";
+
+            if (write(drivers[i].write_pipefd[1], buf, strlen(buf)) == -1)
+            {
+                perror("write to driver pipe error");
+                return;
+            }
+
+            if (i < drivers_count - 1)
+            {
+                drivers[i] = drivers[drivers_count - 1];
+            }
+            drivers_count--;
             return;
         }
     }
@@ -218,6 +245,15 @@ static int execute_command(char* input)
         }
         get_status(current_command.args[0]);
     }
+    else if (strcmp(current_command.command, "remove_driver") == 0)
+    {
+        if (current_command.args_count != 1)
+        {
+            printf("использование: remove_driver <pid>\n");
+            return 0;
+        }
+        remove_driver(current_command.args[0]);
+    }
     else if (strcmp(current_command.command, "get_drivers") == 0) 
     {
         get_drivers();
@@ -230,10 +266,16 @@ static int execute_command(char* input)
     return 1;
 }
 
+static void sigchld_handler(int sig)
+{
+    while (waitpid(-1, NULL, WNOHANG) > 0);
+}
+
 void run_cli()
 {
     char input[MAX_INPUT] = {0};
     init_manager();
+    signal(SIGCHLD, sigchld_handler);
 
     printf("[taxi_bo$$]>> ");
     fflush(stdout);

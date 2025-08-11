@@ -106,6 +106,12 @@ void start_driver(int read_fd, int write_fd)
                     }
                     write(write_fd, response, strlen(response));
                 }
+                else if (strncmp(buf, "REMOVE", 6) == 0)
+                {
+                    close(timer_fd);
+                    close(epoll_fd);
+                    return;
+                }
                 else 
                 {
                     const char* msg = "Неизвестная команда\n";

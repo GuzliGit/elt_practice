@@ -26,9 +26,13 @@ static void send_task(pid_t, int);
 
 static void get_status(pid_t);
 
+static void remove_driver(pid_t);
+
 static void get_drivers();
 
 static int execute_command(char*);
+
+static void sigchld_handler(int);
 
 void run_cli();
 
