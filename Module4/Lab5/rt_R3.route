@@ -1,0 +1,24 @@
+Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+O IA 192.168.4.0/24 [110/11] via 10.1.37.2, 04:31:44, Ethernet2/2
+O IA 192.168.5.0/24 [110/11] via 10.1.38.2, 04:31:44, Ethernet2/1
+     10.0.0.0/30 is subnetted, 6 subnets
+O       10.1.15.0 [110/20] via 192.168.0.1, 04:31:44, Ethernet2/0
+O       10.1.26.0 [110/20] via 192.168.0.2, 04:31:44, Ethernet2/0
+O E2    10.1.45.0 [110/20] via 192.168.0.1, 04:31:44, Ethernet2/0
+C       10.1.38.0 is directly connected, Ethernet2/1
+C       10.1.37.0 is directly connected, Ethernet2/2
+O IA    10.1.67.0 [110/20] via 10.1.37.2, 04:31:46, Ethernet2/2
+C    192.168.0.0/24 is directly connected, Ethernet2/0
+O E2 192.168.1.0/24 [110/20] via 192.168.0.1, 04:31:46, Ethernet2/0
+O E2 192.168.2.0/24 [110/20] via 192.168.0.1, 04:31:46, Ethernet2/0
+O IA 192.168.3.0/24 [110/21] via 192.168.0.2, 04:31:46, Ethernet2/0
+                    [110/21] via 10.1.37.2, 04:31:46, Ethernet2/2
