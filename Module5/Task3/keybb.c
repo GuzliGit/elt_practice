@@ -10,7 +10,7 @@
 #include <linux/printk.h> 
 #include <linux/kobject.h> 
 #include <linux/sysfs.h>
-#include <linux/fs.h> 
+#include <linux/fs.h>
 #include <linux/string.h>
 
 #define INPUT_BASE 10
@@ -21,8 +21,8 @@
 static struct kobject *keyb_kobject;
 static int kbled_val;
 
-struct timer_list my_timer;
-struct tty_driver *my_driver;
+static struct timer_list my_timer;
+static struct tty_driver *my_driver;
 static int kbled_active = 0;
 
 static ssize_t foo_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
